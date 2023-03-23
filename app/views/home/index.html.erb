@@ -1,0 +1,164 @@
+<%= render "partials/loginhead"%>
+<%= render 'partials/navbar'%>
+<style media="screen">
+  .card{
+    --bs-border-radius: 0.85em;
+  background-color: #f9fdff;
+  width: 25rem;
+  }
+  .conatiner {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(24em, 2fr));
+    /* grid-template-rows: repeat(1fr); */
+    grid-column-gap: 2em;
+    grid-row-gap: 2em;
+    margin: auto;
+    max-width: 95%;
+    place-items: center;
+  }
+  .card-foot{
+    display:flex;
+    justify-content:end;
+  }
+
+</style><div class="conatiner container mt-3">
+<% @user1.each do |user|%>
+
+<div class="card equipment" style="width: 25rem">
+  <% if user.profile.attached? %>
+  <%= image_tag user.profile,class:"card-img-top", style:"width: 24.9em;height:20rem;"%>
+  <%else%>
+  <%= image_tag 'doctor',class:"card-img-top"%>
+  <%end%>
+  <div class="card-body">
+    <div class="">
+    <h5 class="card-title"><b>Name : </b><%=user.name%></h5>
+    <p class="card-text"><b>Specialization : </b><%=user.specialization%></p>
+    <p class="card-text"><b>Degree : </b><%=user.degree%></p>
+    <p class="card-text"><b>Experience : </b><%=user.experience%></p>
+      </div>
+      <div class="card-foot">
+    <%= button_tag "Book Slot", type: "button", class: "btn btn-warning", data: { bs_toggle: "modal", bs_target:"##{user.id}" }, id: "ani" %>
+      </div>
+
+  </div>
+</div>
+
+<div id="<%= user.id%>" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Book Slot</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <center><p>The available slots for <%= user.name %> are </p></center>
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Time</th>
+      <th scope="col">Mon</th>
+      <th scope="col">Tue</th>
+      <th scope="col">Wed</th>
+      <th scope="col">Wed</th>
+      <th scope="col">Thu</th>
+      <th scope="col">Fri</th>
+      <th scope="col">Sat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Morning</th>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+    </tr>
+    <tr>
+      <th scope="row">Afternoon</th>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+    </tr>
+    <tr>
+      <th scope="row">Evening</th>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+      <td>Rs.200</td>
+    </tr>
+    <tr>
+      <th scope="row">Night</th>
+      <td>Rs.500</td>
+      <td>Rs.500</td>
+      <td>Rs.500</td>
+      <td>Rs.500</td>
+      <td>Rs.500</td>
+      <td>Rs.500</td>
+      <td>Rs.500</td>
+    </tr>
+  </tbody>
+</table>
+<% @slot=Slot.new%>
+<%= form_with(model: @slot) do |form| %>
+    <div class="input-group mb-3">
+  <span class="input-group-text" id="inputGroup-sizing-default">Enter the Date</span>
+  <%= form.date_field :date,class:"form-control" %>
+</div>
+
+<div class="input-group mb-3">
+<span class="input-group-text" id="inputGroup-sizing-default">Enter the Date</span>
+<%= form.time_field :time,class:"form-control" %>
+</div>
+
+      </div>
+      <div class="modal-footer">
+        <%= form.submit 'Book Slot',class:"btn btn-warning"%>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+<%end%>
+</div>
+<br>
+<%= render 'partials/footer'%>
+
+<script>
+        const searchInput = document.getElementById("searchInput");
+
+        // store name elements in array-like object
+        const namesFromDOM = document.getElementsByClassName("equipment");
+
+        // listen for user events
+        searchInput.addEventListener("keyup", (event) => {
+            const { value } = event.target;
+
+            // get user search input converted to lowercase
+            const searchQuery = value.toLowerCase();
+
+            for (const nameElement of namesFromDOM) {
+                // store name text and convert to lowercase
+                let name = nameElement.textContent.toLowerCase();
+
+                // compare current name to search input
+                if (name.includes(searchQuery)) {
+                    // found name matching search, display it
+                    nameElement.style.display = "block";
+                } else {
+                    // no match, don't display name
+                    nameElement.style.display = "none";
+                }
+            }
+        });
+</script>

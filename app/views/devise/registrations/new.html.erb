@@ -1,0 +1,109 @@
+<%= render "partials/loginhead"%>
+<div class="cont1">
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="input-group mb-3">
+  <%= f.label :usertype,'Type of user',for:"inputGroupSelect01", class:"input-group-text"%>
+  <%= f.select(:usertype, ['doctor','patient'], {:include_blank => 'Choose...'},{ :class => 'form-select' ,:id => "usertype",:required => true}) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :name ,class:"form-label" %><br />
+    <%= f.text_field :name ,id:"formFile",class:"form-control"  %>
+  </div>
+
+  <div class="field" >
+    <%= f.label :age ,class:"form-label" %><br />
+    <%= f.number_field :age ,id:"formFile",class:"form-control"  %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email ,class:"form-label" %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email",id:"formFile",class:"form-control"  %>
+  </div>
+
+  <br>
+
+  <div class="field">
+    <%= f.label :password ,class:"form-label" %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password",id:"formFile",class:"form-control"  %>
+  </div>
+
+  <div class="field " >
+    <%= f.label :password_confirmation ,class:"form-label" %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password",id:"formFile",class:"form-control"  %>
+  </div>
+
+<br>
+
+<div class="field">
+  <%= f.label :location ,class:"form-label" %><br />
+  <%= f.text_field :location ,id:"formFile",class:"form-control"  %>
+</div>
+<div class="field" >
+  <%= f.label :state ,class:"form-label" %><br />
+  <%= f.text_field :state ,id:"formFile",class:"form-control"  %>
+</div>
+<div class="field" id="experience">
+  <%= f.label :experience ,class:"form-label" %><br />
+  <%= f.number_field :experience ,step: 0.5 ,id:"formFile",class:"form-control"  %>
+</div>
+<br>
+
+  <div class="input-group mb-3 " id="degree">
+  <div class="input-group-prepend">
+    <label class="input-group-text" for="inputGroupSelect01">Degree</label>
+  </div>
+<%= f.select :degree, ['Ayurvedic','MBBS'] ,class:"custom-select", id:"inputGroupSelect02" %>
+</div>
+
+<div class="input-group mb-3 " id="specialization">
+<div class="input-group-prepend">
+  <label class="input-group-text" for="inputGroupSelect01">Specialization</label>
+</div>
+<%= f.select :specialization, ['Brain Surgery','Gynaecologist'] ,class:"custom-select", id:"inputGroupSelect02" %>
+</div>
+
+<div class="field">
+  <%= f.label :profile ,class:"form-label" %><br />
+  <%= f.file_field :profile ,id:"formFile",class:"form-control"  %>
+</div>
+
+
+  <div class="actions">
+    <center>
+      <br>
+    <%= f.submit "Sign up",class:"btn btn-warning" %>
+    </center>
+  </div>
+<% end %>
+<br>
+<%= render "devise/shared/links" %>
+</div>
+<%=  render 'partials/loginabout'%>
+
+<script type="text/javascript">
+  let usertype = document.getElementById("usertype");
+  let degree = document.getElementById("degree");
+  let specialization = document.getElementById("specialization");
+  let experience = document.getElementById("experience");
+  usertype.addEventListener('click', () => {
+
+degree.classList.remove('vis');
+experience.classList.remove('vis');
+specialization.classList.remove('vis');
+
+    if (usertype.value == 'patient'){
+     degree.classList.toggle('vis');
+     specialization.classList.toggle('vis');
+     experience.classList.toggle('vis');
+    }
+
+  });
+</script>
