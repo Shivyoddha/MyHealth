@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/myadmin', as: 'rails_admin'
   get 'doctor/myslot'
-
   resources :slots
   devise_for :users
   get 'home/index'

@@ -1,2 +1,31 @@
+<%= render "partials/loginhead"%>
+<%= render 'partials/navbar2'%>
+
+
 <center><h1>My Slots</h1></center>
-<%= link_to 'LogOut',destroy_user_session_path,method: :delete%>
+<% @slots.each do |slot|%>
+<div class="card text-center">
+  <div class="card-header">
+    <b>Slot No : <%= slot.id%></b>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Patient Name: <%= slot.user.name%></h5>
+    <p class="card-text">Slot Date: <%= slot.date.strftime("%B #{slot.date.day.ordinalize}, %Y")%></p>
+    <p class="card-text">Slot Time:<%= slot.time.strftime("at %I:%M%p")   %></p>
+    <% if slot.status == nil%>
+    <%= form_with(model: slot) do |form| %>
+    <%= form.hidden_field :status, value:"Accepted"%>
+    <%= form.submit 'Accept',class:"btn btn-primary"%>
+    <% end%>
+    <% else%>
+    <a href="#" class="btn btn-secondary">Accepted</a>
+    <% end%>
+  </div>
+  <div class="card-footer text-muted">
+    Booked On <%=slot.created_at.strftime("%B #{slot.created_at.day.ordinalize}, %Y") %>
+  </div>
+</div>
+<br>
+<%end%>
+
+<%= render 'partials/footer'%>

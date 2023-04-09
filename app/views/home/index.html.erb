@@ -28,7 +28,7 @@
   <% if user.profile.attached? %>
   <%= image_tag user.profile,class:"card-img-top", style:"width: 24.9em;height:20rem;"%>
   <%else%>
-  <%= image_tag 'doctor',class:"card-img-top"%>
+  <%= image_tag 'doctor',class:"card-img-top", style:"width: 24.9em;height:20rem;"%>
   <%end%>
   <div class="card-body">
     <div class="">
@@ -109,7 +109,6 @@
     </tr>
   </tbody>
 </table>
-<% @slot=Slot.new%>
 <%= form_with(model: @slot) do |form| %>
     <div class="input-group mb-3">
   <span class="input-group-text" id="inputGroup-sizing-default">Enter the Date</span>
@@ -120,7 +119,7 @@
 <span class="input-group-text" id="inputGroup-sizing-default">Enter the Date</span>
 <%= form.time_field :time,class:"form-control" %>
 </div>
-
+<%= form.hidden_field :doctorId, value:"#{user.id}"%>
       </div>
       <div class="modal-footer">
         <%= form.submit 'Book Slot',class:"btn btn-warning"%>

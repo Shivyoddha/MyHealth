@@ -3,25 +3,30 @@ class SlotsController < ApplicationController
 
   # GET /slots or /slots.json
   def index
+    redirect_to home_index_path
     @slots = Slot.all
   end
 
   # GET /slots/1 or /slots/1.json
   def show
+    redirect_to home_index_path
   end
+
+    # GET /slots/1/edit
+    def edit
+
+    end
 
   # GET /slots/new
   def new
     @slot = Slot.new
   end
 
-  # GET /slots/1/edit
-  def edit
-  end
 
   # POST /slots or /slots.json
   def create
     @slot = Slot.new(slot_params)
+  @slot.user=current_user
 
     respond_to do |format|
       if @slot.save
@@ -36,6 +41,7 @@ class SlotsController < ApplicationController
 
   # PATCH/PUT /slots/1 or /slots/1.json
   def update
+    @slot.status="Accepted"
     respond_to do |format|
       if @slot.update(slot_params)
         format.html { redirect_to slot_url(@slot), notice: "Slot was successfully updated." }
@@ -65,6 +71,6 @@ class SlotsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def slot_params
-      params.require(:slot).permit(:date, :time)
+      params.require(:slot).permit(:date, :time,:user_id,:doctorId,:status)
     end
 end
